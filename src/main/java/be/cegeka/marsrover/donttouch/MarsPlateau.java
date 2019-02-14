@@ -1,8 +1,8 @@
 package be.cegeka.marsrover.donttouch;
 
-import be.cegeka.marsrover.Location;
-import be.cegeka.marsrover.MarsRover;
-import be.cegeka.marsrover.Orientation;
+import be.cegeka.marsrover.domain.Location;
+import be.cegeka.marsrover.domain.MarsRover;
+import be.cegeka.marsrover.domain.Orientation;
 
 import java.util.UUID;
 

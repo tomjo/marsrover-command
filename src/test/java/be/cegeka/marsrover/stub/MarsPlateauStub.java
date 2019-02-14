@@ -1,8 +1,9 @@
-package be.cegeka.marsrover.donttouch;
+package be.cegeka.marsrover.stub;
 
-import be.cegeka.marsrover.Location;
-import be.cegeka.marsrover.MarsRover;
-import be.cegeka.marsrover.Orientation;
+import be.cegeka.marsrover.domain.Location;
+import be.cegeka.marsrover.domain.MarsRover;
+import be.cegeka.marsrover.domain.Orientation;
+import be.cegeka.marsrover.donttouch.MarsPlateau;
 
 import java.util.HashMap;
 import java.util.Map;

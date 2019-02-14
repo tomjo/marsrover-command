@@ -11,10 +11,12 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static be.cegeka.marsrover.domain.Orientation.*;
+import static be.cegeka.marsrover.acl.MarsRoverCommunication.MINIMUM_COMMAND_COUNT;
+import static be.cegeka.marsrover.domain.Orientation.EAST;
+import static be.cegeka.marsrover.domain.Orientation.NORTH;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MarsRoverTest {
+public class MarsRoverUndoTest {
 
     private MarsRoverCommunicationAPI api;
     private MarsPlateau marsPlateau = new MarsPlateauStub();
@@ -26,35 +28,34 @@ public class MarsRoverTest {
     }
 
     @Test
-    public void whenMoveCommandReceived_shouldMoveMarsRover() {
+    public void whenUndoReceived_discardLastBufferedCommand() {
         UUID marsRoverId = marsPlateau.deployMarsRover(new Location(2, 2), NORTH);
+        MINIMUM_COMMAND_COUNT = 3;
 
+        api.sendMarsRoverCommand(marsRoverId, "M");
+        api.sendMarsRoverCommand(marsRoverId, "M");
+        api.sendMarsRoverCommand(marsRoverId, "U");
+        api.sendMarsRoverCommand(marsRoverId, "R");
         api.sendMarsRoverCommand(marsRoverId, "M");
 
         MarsRover marsRover = marsPlateau.lookupMarsRover(marsRoverId);
-        assertThat(marsRover.getLocation()).isEqualTo(new Location(2, 3));
+        assertThat(marsRover.getLocation()).isEqualTo(new Location(3, 3));
+        assertThat(marsRover.getOrientation()).isEqualTo(EAST);
+    }
+
+    @Test
+    public void whenUndoReceivedButNoBufferedCommands_doesNotDoAnything() {
+        UUID marsRoverId = marsPlateau.deployMarsRover(new Location(2, 2), NORTH);
+        MINIMUM_COMMAND_COUNT = 3;
+
+        api.sendMarsRoverCommand(marsRoverId, "M");
+        api.sendMarsRoverCommand(marsRoverId, "M");
+        api.sendMarsRoverCommand(marsRoverId, "M");
+        api.sendMarsRoverCommand(marsRoverId, "U");
+
+        MarsRover marsRover = marsPlateau.lookupMarsRover(marsRoverId);
+        assertThat(marsRover.getLocation()).isEqualTo(new Location(2, 5));
         assertThat(marsRover.getOrientation()).isEqualTo(NORTH);
     }
 
-    @Test
-    public void whenTurnLeftCommandReceived_shouldTurnLeft() {
-        UUID marsRoverId = marsPlateau.deployMarsRover(new Location(2, 2), NORTH);
-
-        api.sendMarsRoverCommand(marsRoverId, "L");
-
-        MarsRover marsRover = marsPlateau.lookupMarsRover(marsRoverId);
-        assertThat(marsRover.getLocation()).isEqualTo(new Location(2, 2));
-        assertThat(marsRover.getOrientation()).isEqualTo(WEST);
-    }
-
-    @Test
-    public void whenTurnRightCommandReceived_shouldTurnRight() {
-        UUID marsRoverId = marsPlateau.deployMarsRover(new Location(2, 2), NORTH);
-
-        api.sendMarsRoverCommand(marsRoverId, "R");
-
-        MarsRover marsRover = marsPlateau.lookupMarsRover(marsRoverId);
-        assertThat(marsRover.getLocation()).isEqualTo(new Location(2, 2));
-        assertThat(marsRover.getOrientation()).isEqualTo(EAST);
-    }
 }

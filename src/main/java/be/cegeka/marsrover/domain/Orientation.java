@@ -1,4 +1,4 @@
-package be.cegeka.marsrover;
+package be.cegeka.marsrover.domain;
 
 public enum Orientation {
     NORTH,EAST,SOUTH,WEST;

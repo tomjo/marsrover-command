@@ -1,4 +1,4 @@
-package be.cegeka.marsrover;
+package be.cegeka.marsrover.domain;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,12 +1,10 @@
-package be.cegeka.marsrover;
-
-import be.cegeka.marsrover.donttouch.Logger;
+package be.cegeka.marsrover.service;
 
 import java.util.UUID;
 
 public class MarsRoverLogger implements Logger {
     @Override
-    public String fetchMarsRoverHistory(UUID marsRoverId) {
+    public String fetchMarsRoverLogs(UUID marsRoverId) {
         //TODO
         return null;
     }

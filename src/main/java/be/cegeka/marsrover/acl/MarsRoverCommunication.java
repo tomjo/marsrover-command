@@ -1,17 +1,17 @@
-package be.cegeka.marsrover;
+package be.cegeka.marsrover.acl;
 
 import be.cegeka.marsrover.donttouch.MarsPlateau;
 import be.cegeka.marsrover.donttouch.MarsRoverCommunicationAPI;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class MarsRoverCommunication implements MarsRoverCommunicationAPI {
 
-    private final MarsPlateau marsPlateau;
+    public static int MINIMUM_COMMAND_COUNT = 5;
 
-    public MarsRoverCommunication(MarsPlateau marsPlateau) {
-        this.marsPlateau = marsPlateau;
-    }
+    private final MarsPlateau marsPlateau;
 
     @Override
     public void sendMarsRoverCommand(UUID marsRoverId, String command, String... args) {
