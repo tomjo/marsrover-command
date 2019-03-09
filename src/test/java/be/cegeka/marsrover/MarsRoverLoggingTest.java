@@ -1,7 +1,7 @@
 package be.cegeka.marsrover;
 
 import be.cegeka.marsrover.acl.MarsRoverCommunication;
-import be.cegeka.marsrover.command.CommandHandler;
+import be.cegeka.marsrover.command.BufferedCommandHandler;
 import be.cegeka.marsrover.command.MarsRoverCommandFactory;
 import be.cegeka.marsrover.domain.Location;
 import be.cegeka.marsrover.donttouch.MarsPlateau;
@@ -27,8 +27,8 @@ public class MarsRoverLoggingTest {
     @Before
     public void setUp() {
         this.marsPlateau = new MarsPlateauStub();
-        this.api = new MarsRoverCommunication(marsPlateau, new CommandHandler(), new MarsRoverCommandFactory());
         this.logger = new MarsRoverLogger();
+        this.api = new MarsRoverCommunication(marsPlateau, new BufferedCommandHandler(this.logger), new MarsRoverCommandFactory());
     }
 
     @Test
@@ -43,9 +43,9 @@ public class MarsRoverLoggingTest {
         String logs = this.logger.fetchMarsRoverLogs(marsRoverId);
 
         assertThat(logs).isEqualTo(String.format("Logs from Mars Rover {%s}:\n" +
-                "1) [RECV] Move (2,2) -> (2,3) | comment" +
-                "2) [RECV] Move (2,3) -> (2,4) | comment" +
-                "3) [RECV] Move (2,3) -> (2,5) | comment2", marsRoverId.toString()));
+                "1) [RECV] Move | comment\n" +
+                "2) [RECV] Move | comment\n" +
+                "3) [RECV] Move | comment2", marsRoverId.toString()));
     }
 
     @Test
@@ -61,13 +61,13 @@ public class MarsRoverLoggingTest {
         String logs = this.logger.fetchMarsRoverLogs(marsRoverId);
 
         assertThat(logs).isEqualTo(String.format("Logs from Mars Rover {%s}:\n" +
-                "1) [RECV] Move (2,2) -> (2,3) | comment" +
-                "2) [RECV] Move (2,3) -> (2,4) | comment" +
-                "3) [RECV] Move (2,3) -> (2,5) | comment2" +
-                "4) [EXEC] Move (2,2) -> (2,3) | comment" +
-                "5) [EXEC] Move (2,3) -> (2,4) | comment" +
-                "6) [EXEC] Move (2,3) -> (2,5) | comment2" +
-                "4) [RECV] Turn Right North -> East", marsRoverId.toString()));
+                "1) [RECV] Move | comment\n" +
+                "2) [RECV] Move | comment\n" +
+                "3) [RECV] Move | comment2\n" +
+                "4) [EXEC] Move | comment\n" +
+                "5) [EXEC] Move | comment\n" +
+                "6) [EXEC] Move | comment2\n" +
+                "7) [RECV] Turn Right", marsRoverId.toString()));
     }
 
 }

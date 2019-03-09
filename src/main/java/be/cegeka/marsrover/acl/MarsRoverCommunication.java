@@ -23,6 +23,6 @@ public class MarsRoverCommunication implements MarsRoverCommunicationAPI {
     public void sendMarsRoverCommand(UUID marsRoverId, String command, String... args) {
         MarsRover marsRover = marsPlateau.lookupMarsRover(marsRoverId);
         Command marsRoverCommand = commandFactory.createCommand(marsRover, command, args);
-        commandHandler.handleCommand(marsRoverCommand);
+        commandHandler.handleCommand(marsRoverId, marsRoverCommand);
     }
 }

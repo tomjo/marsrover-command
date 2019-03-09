@@ -12,4 +12,9 @@ public class TurnRightCommand implements Command {
     public void execute() {
         marsRover.turnRight();
     }
+
+    @Override
+    public String toString() {
+        return "Turn Right";
+    }
 }
