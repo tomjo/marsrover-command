@@ -1,6 +1,8 @@
 package be.cegeka.marsrover;
 
 import be.cegeka.marsrover.acl.MarsRoverCommunication;
+import be.cegeka.marsrover.command.CommandHandler;
+import be.cegeka.marsrover.command.MarsRoverCommandFactory;
 import be.cegeka.marsrover.domain.Location;
 import be.cegeka.marsrover.domain.MarsRover;
 import be.cegeka.marsrover.donttouch.MarsPlateau;
@@ -21,9 +23,9 @@ public class MarsRoverQueueingTest {
     private MarsPlateau marsPlateau = new MarsPlateauStub();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.marsPlateau = new MarsPlateauStub();
-        this.api = new MarsRoverCommunication(marsPlateau);
+        this.api = new MarsRoverCommunication(marsPlateau, new CommandHandler(), new MarsRoverCommandFactory());
     }
 
     @Test

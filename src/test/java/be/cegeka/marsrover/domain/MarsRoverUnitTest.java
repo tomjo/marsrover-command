@@ -1,7 +1,5 @@
-package be.cegeka.marsrover;
+package be.cegeka.marsrover.domain;
 
-import be.cegeka.marsrover.domain.Location;
-import be.cegeka.marsrover.domain.MarsRover;
 import org.junit.Test;
 
 import static be.cegeka.marsrover.domain.Orientation.*;
